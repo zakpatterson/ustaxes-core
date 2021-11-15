@@ -1,0 +1,67 @@
+{
+  "name": "ustaxes-forms",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "ajv": "^8.7.1",
+    "lodash": "^4.17.21",
+    "loglevel": "^1.7.1",
+    "pdf-lib": "^1.17.1",
+    "ts-json-schema-generator": "^0.97.0",
+    "typescript": "^4.4.4"
+  },
+  "scripts": {
+    "build": "node ./notice.js && ts-node ./scripts/setup.ts",
+    "test": "ts-node ./scripts/setup.ts && jest",
+    "lint": "eslint ./src --ext ts,js --max-warnings=0 && prettier -c .",
+    "lint:fix": "eslint ./src --fix --ext ts,js && prettier --write .",
+    "prettier": "prettier --write .",
+    "formgen": "ts-node ./scripts/formgen.ts",
+    "prepare": "husky install"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "@babel/preset-env": "^7.16.0",
+    "@babel/preset-typescript": "^7.16.0",
+    "@types/jest": "^27.0.2",
+    "@types/lodash": "^4.14.176",
+    "@types/node": "^16.11.7",
+    "@typescript-eslint/eslint-plugin": "^4.33.0",
+    "@typescript-eslint/parser": "^4.33.0",
+    "eslint": "^7.32.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-import": "^2.25.3",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "eslint-plugin-promise": "^5.1.1",
+    "fast-check": "^2.19.0",
+    "husky": "^7.0.4",
+    "jest": "^27.3.1",
+    "lint-staged": "^11.2.6",
+    "prettier": "2.4.1",
+    "ts-node": "^10.4.0"
+  },
+  "lint-staged": {
+    "**/*": "prettier --write --ignore-unknown .",
+    "*.{ts,js}": "eslint ./src --cache --fix"
+  },
+  "jest": {
+    "moduleNameMapper": {
+      "^ustaxes-forms/(.*)": "<rootDir>/src/$1"
+    }
+  },
+  "engines": {
+    "yarn": "please-use-npm"
+  }
+}

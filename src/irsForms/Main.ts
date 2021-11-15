@@ -1,5 +1,5 @@
-import { Information } from 'ustaxes/redux/data'
-import { Either, left, right } from 'ustaxes/util'
+import { Information } from 'ustaxes-forms/data'
+import { Either, left, right } from 'ustaxes-forms/util'
 import F1040, { F1040Error } from './F1040'
 import Form from './Form'
 

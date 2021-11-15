@@ -10,8 +10,3 @@ updates:
     schedule:
       interval: "daily"
     target-branch: "dependabot-updates"
-  - package-ecosystem: "cargo"
-    directory: "/src-tauri/" # Location of package manifests
-    schedule:
-      interval: "daily"
-    target-branch: "dependabot-updates"

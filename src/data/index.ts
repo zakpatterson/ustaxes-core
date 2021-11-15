@@ -1,4 +1,4 @@
-import { Responses } from 'ustaxes/data/questions'
+import { Responses } from './questions'
 
 export enum PersonRole {
   PRIMARY = 'PRIMARY',
@@ -326,27 +326,3 @@ export interface Information {
   questions: Responses
   stateResidencies: StateResidency[]
 }
-
-export enum TaxYears {
-  Y2019 = 2019,
-  Y2020 = 2020,
-  Y2021 = 2021
-}
-
-export type TaxYear = keyof typeof TaxYears
-
-export type TaxesState = Partial<{ [K in TaxYear]: Information }> & {
-  activeYear: TaxYear
-}
-
-export interface ArrayItemEditAction<A> {
-  index: number
-  value: A
-}
-
-export type EditDependentAction = ArrayItemEditAction<Dependent>
-export type EditW2Action = ArrayItemEditAction<IncomeW2>
-export type EditEstimatedTaxesAction = ArrayItemEditAction<EstimatedTaxPayments>
-export type Edit1099Action = ArrayItemEditAction<Supported1099>
-export type EditPropertyAction = ArrayItemEditAction<Property>
-export type Edit1098eAction = ArrayItemEditAction<F1098e>

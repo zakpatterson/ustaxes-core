@@ -72,7 +72,7 @@ const buildSource = (doc: PDFDocument, formName: string): string => {
 import F1040 from '../../irsForms/F1040'
 import { Field } from '../../pdfFiller'
 import { displayNumber, sumFields } from '../../irsForms/util'
-import { AccountType, FilingStatus, Information, State } from '../../redux/data'
+import { AccountType, FilingStatus, Information, State } from 'ustaxes-forms/data'
 
 export class ${className} extends Form {
   info: Information

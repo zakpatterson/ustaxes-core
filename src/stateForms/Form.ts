@@ -1,6 +1,6 @@
-import F1040 from 'ustaxes/irsForms/F1040'
-import Fill from 'ustaxes/pdfFiller/Fill'
-import { IncomeW2, Information, State } from '../redux/data'
+import F1040 from 'ustaxes-forms/irsForms/F1040'
+import Fill from 'ustaxes-forms/pdfFiller/Fill'
+import { IncomeW2, Information, State } from 'ustaxes-forms/data'
 
 /**
  * Represents a state's income tax form, or schedule
