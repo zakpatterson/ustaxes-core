@@ -1,5 +1,5 @@
 import { PDFDocument } from 'pdf-lib'
-import { PDFDownloader } from 'ustaxes-forms/pdfFiller/pdfHandler'
+import { PDFDownloader } from '../../pdfFiller/pdfHandler'
 import fs from 'fs'
 import path from 'path'
 

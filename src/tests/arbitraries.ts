@@ -1,15 +1,11 @@
 import * as fc from 'fast-check'
 import { Arbitrary } from 'fast-check'
-import locationPostalCodes from 'ustaxes-forms/data/locationPostalCodes'
-import {
-  QuestionTagName,
-  questionTagNames,
-  Responses
-} from 'ustaxes-forms/data/questions'
-import F1040 from 'ustaxes-forms/irsForms/F1040'
-import Form from 'ustaxes-forms/irsForms/Form'
-import { create1040 } from 'ustaxes-forms/irsForms/Main'
-import * as types from 'ustaxes-forms/data'
+import locationPostalCodes from '../data/locationPostalCodes'
+import { QuestionTagName, questionTagNames, Responses } from '../data/questions'
+import F1040 from '../irsForms/F1040'
+import Form from '../irsForms/Form'
+import { create1040 } from '../irsForms/Main'
+import * as types from '../data'
 import * as util from '../util'
 import _ from 'lodash'
 

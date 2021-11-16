@@ -56,11 +56,6 @@
     "**/*": "prettier --write --ignore-unknown .",
     "*.{ts,js}": "eslint ./src --cache --fix"
   },
-  "jest": {
-    "moduleNameMapper": {
-      "^ustaxes-forms/(.*)": "<rootDir>/src/$1"
-    }
-  },
   "engines": {
     "yarn": "please-use-npm"
   }

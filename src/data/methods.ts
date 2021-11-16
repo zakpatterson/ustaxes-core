@@ -1,4 +1,4 @@
-import { Responses } from 'ustaxes-forms/data/questions'
+import { Responses } from './questions'
 import {
   EstimatedTaxPayments,
   F1098e,

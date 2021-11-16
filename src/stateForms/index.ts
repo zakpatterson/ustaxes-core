@@ -3,7 +3,7 @@ import { PDFDocument } from 'pdf-lib'
 import F1040 from '../irsForms/F1040'
 import { fillPDF } from '../pdfFiller/fillPdf'
 import { combinePdfs, PDFDownloader } from '../pdfFiller/pdfHandler'
-import { State, Information } from 'ustaxes-forms/data'
+import { State, Information } from '../data'
 import Form from './Form'
 import il1040 from './IL/IL1040'
 

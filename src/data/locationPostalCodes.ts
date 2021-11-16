@@ -1,4 +1,4 @@
-import { State } from 'ustaxes-forms/data'
+import { State } from '.'
 
 const locationPostalCodes: Array<[string, State]> = [
   ['Alabama', 'AL'],

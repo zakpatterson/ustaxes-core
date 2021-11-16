@@ -1,4 +1,4 @@
-import Fill from 'ustaxes-forms/pdfFiller/Fill'
+import Fill from '../pdfFiller/Fill'
 
 export type FormTag =
   | 'f1040'

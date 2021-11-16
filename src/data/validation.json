@@ -3,7 +3,12 @@
   "definitions": {
     "PersonRole": {
       "type": "string",
-      "enum": ["PRIMARY", "SPOUSE", "DEPENDENT", "EMPLOYER"]
+      "enum": [
+        "PRIMARY",
+        "SPOUSE",
+        "DEPENDENT",
+        "EMPLOYER"
+      ]
     },
     "Person": {
       "type": "object",
@@ -21,7 +26,12 @@
           "$ref": "#/definitions/PersonRole"
         }
       },
-      "required": ["firstName", "lastName", "ssid", "role"],
+      "required": [
+        "firstName",
+        "lastName",
+        "ssid",
+        "role"
+      ],
       "additionalProperties": false
     },
     "QualifyingInformation": {
@@ -37,7 +47,11 @@
           "type": "boolean"
         }
       },
-      "required": ["birthYear", "numberOfMonths", "isStudent"],
+      "required": [
+        "birthYear",
+        "numberOfMonths",
+        "isStudent"
+      ],
       "additionalProperties": false
     },
     "Dependent": {
@@ -62,7 +76,13 @@
           "$ref": "#/definitions/QualifyingInformation"
         }
       },
-      "required": ["firstName", "lastName", "relationship", "role", "ssid"],
+      "required": [
+        "firstName",
+        "lastName",
+        "relationship",
+        "role",
+        "ssid"
+      ],
       "additionalProperties": false
     },
     "Address": {
@@ -93,7 +113,10 @@
           "type": "string"
         }
       },
-      "required": ["address", "city"],
+      "required": [
+        "address",
+        "city"
+      ],
       "additionalProperties": false
     },
     "State": {
@@ -229,7 +252,10 @@
     },
     "AccountType": {
       "type": "string",
-      "enum": ["checking", "savings"]
+      "enum": [
+        "checking",
+        "savings"
+      ]
     },
     "Refund": {
       "type": "object",
@@ -244,7 +270,11 @@
           "$ref": "#/definitions/AccountType"
         }
       },
-      "required": ["routingNumber", "accountNumber", "accountType"],
+      "required": [
+        "routingNumber",
+        "accountNumber",
+        "accountType"
+      ],
       "additionalProperties": false
     },
     "IncomeW2": {
@@ -273,7 +303,10 @@
         },
         "personRole": {
           "type": "string",
-          "enum": ["PRIMARY", "SPOUSE"]
+          "enum": [
+            "PRIMARY",
+            "SPOUSE"
+          ]
         },
         "state": {
           "$ref": "#/definitions/State"
@@ -306,12 +339,21 @@
           "type": "number"
         }
       },
-      "required": ["label", "payment"],
+      "required": [
+        "label",
+        "payment"
+      ],
       "additionalProperties": false
     },
     "Income1099Type": {
       "type": "string",
-      "enum": ["B", "INT", "DIV", "R", "SSA"]
+      "enum": [
+        "B",
+        "INT",
+        "DIV",
+        "R",
+        "SSA"
+      ]
     },
     "F1099BData": {
       "type": "object",
@@ -344,7 +386,9 @@
           "type": "number"
         }
       },
-      "required": ["income"],
+      "required": [
+        "income"
+      ],
       "additionalProperties": false
     },
     "F1099DivData": {
@@ -357,12 +401,18 @@
           "type": "number"
         }
       },
-      "required": ["dividends", "qualifiedDividends"],
+      "required": [
+        "dividends",
+        "qualifiedDividends"
+      ],
       "additionalProperties": false
     },
     "PlanType1099": {
       "type": "string",
-      "enum": ["IRA", "Pension"]
+      "enum": [
+        "IRA",
+        "Pension"
+      ]
     },
     "F1099RData": {
       "type": "object",
@@ -398,16 +448,31 @@
           "type": "number"
         }
       },
-      "required": ["netBenefits", "federalIncomeTaxWithheld"],
+      "required": [
+        "netBenefits",
+        "federalIncomeTaxWithheld"
+      ],
       "additionalProperties": false
     },
     "FilingStatus": {
       "type": "string",
-      "enum": ["S", "MFJ", "MFS", "HOH", "W"]
+      "enum": [
+        "S",
+        "MFJ",
+        "MFS",
+        "HOH",
+        "W"
+      ]
     },
     "FilingStatusName": {
       "type": "string",
-      "enum": ["S", "MFJ", "MFS", "HOH", "W"]
+      "enum": [
+        "S",
+        "MFJ",
+        "MFS",
+        "HOH",
+        "W"
+      ]
     },
     "NamedParameters<typeof filingStatuses>": {
       "type": "object",
@@ -443,7 +508,9 @@
           }
         }
       },
-      "required": ["dependents"],
+      "required": [
+        "dependents"
+      ],
       "additionalProperties": false
     },
     "ContactInfo": {
@@ -476,10 +543,18 @@
         },
         "personRole": {
           "type": "string",
-          "enum": ["PRIMARY", "SPOUSE"]
+          "enum": [
+            "PRIMARY",
+            "SPOUSE"
+          ]
         }
       },
-      "required": ["payer", "type", "form", "personRole"],
+      "required": [
+        "payer",
+        "type",
+        "form",
+        "personRole"
+      ],
       "additionalProperties": false
     },
     "Income1099B": {
@@ -500,10 +575,18 @@
         },
         "personRole": {
           "type": "string",
-          "enum": ["PRIMARY", "SPOUSE"]
+          "enum": [
+            "PRIMARY",
+            "SPOUSE"
+          ]
         }
       },
-      "required": ["payer", "type", "form", "personRole"],
+      "required": [
+        "payer",
+        "type",
+        "form",
+        "personRole"
+      ],
       "additionalProperties": false
     },
     "Income1099Div": {
@@ -524,10 +607,18 @@
         },
         "personRole": {
           "type": "string",
-          "enum": ["PRIMARY", "SPOUSE"]
+          "enum": [
+            "PRIMARY",
+            "SPOUSE"
+          ]
         }
       },
-      "required": ["payer", "type", "form", "personRole"],
+      "required": [
+        "payer",
+        "type",
+        "form",
+        "personRole"
+      ],
       "additionalProperties": false
     },
     "Income1099R": {
@@ -548,10 +639,18 @@
         },
         "personRole": {
           "type": "string",
-          "enum": ["PRIMARY", "SPOUSE"]
+          "enum": [
+            "PRIMARY",
+            "SPOUSE"
+          ]
         }
       },
-      "required": ["payer", "type", "form", "personRole"],
+      "required": [
+        "payer",
+        "type",
+        "form",
+        "personRole"
+      ],
       "additionalProperties": false
     },
     "Income1099SSA": {
@@ -572,10 +671,18 @@
         },
         "personRole": {
           "type": "string",
-          "enum": ["PRIMARY", "SPOUSE"]
+          "enum": [
+            "PRIMARY",
+            "SPOUSE"
+          ]
         }
       },
-      "required": ["payer", "type", "form", "personRole"],
+      "required": [
+        "payer",
+        "type",
+        "form",
+        "personRole"
+      ],
       "additionalProperties": false
     },
     "Supported1099": {
@@ -599,7 +706,15 @@
     },
     "PropertyType": {
       "type": "number",
-      "enum": [0, 1, 2, 3, 4, 5, 6]
+      "enum": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ]
     },
     "PropertyTypeName": {
       "type": "string",
@@ -615,7 +730,23 @@
     },
     "PropertyExpenseType": {
       "type": "number",
-      "enum": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
+      "enum": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14
+      ]
     },
     "PropertyExpenseTypeName": {
       "type": "string",
@@ -737,7 +868,10 @@
           "type": "number"
         }
       },
-      "required": ["lender", "interest"],
+      "required": [
+        "lender",
+        "interest"
+      ],
       "additionalProperties": false
     },
     "StateResidency": {
@@ -747,7 +881,9 @@
           "$ref": "#/definitions/State"
         }
       },
-      "required": ["state"],
+      "required": [
+        "state"
+      ],
       "additionalProperties": false
     },
     "Information": {

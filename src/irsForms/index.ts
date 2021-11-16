@@ -3,12 +3,8 @@ import { create1040 } from '../irsForms/Main'
 import { isLeft } from '../util'
 import _ from 'lodash'
 import log from '../log'
-import {
-  combinePdfs,
-  getPdfs,
-  PDFDownloader
-} from 'ustaxes-forms/pdfFiller/pdfHandler'
-import { Information } from 'ustaxes-forms/data'
+import { combinePdfs, getPdfs, PDFDownloader } from '../pdfFiller/pdfHandler'
+import { Information } from '../data'
 
 export const create1040PDFs =
   (state: Information) =>
