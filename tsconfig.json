@@ -16,9 +16,9 @@
     "isolatedModules": true,
     "noEmit": false,
     "composite": true,
-    "strictNullChecks": true
+    "strictNullChecks": true,
+    "outDir": "./dist"
   },
-  "outDir": "./dist",
   "include": ["src/**/*", "src/**/*.json", "scripts"],
   "exclude": ["**/node_modules", "**/.*/"],
   "references": [],
