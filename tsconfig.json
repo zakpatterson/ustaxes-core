@@ -14,11 +14,14 @@
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "noEmit": true,
+    "noEmit": false,
+    "composite": true,
     "strictNullChecks": true
   },
-  "include": ["src", "scripts"],
+  "outDir": "./dist",
+  "include": ["src/**/*", "src/**/*.json", "scripts"],
   "exclude": ["**/node_modules", "**/.*/"],
+  "references": [],
   "ts-node": {
     "compilerOptions": {
       "module": "commonjs"
