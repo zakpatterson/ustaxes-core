@@ -1,13 +1,8 @@
 import { createGenerator } from 'ts-json-schema-generator'
 import fs from 'fs'
 
-export const saveSchema = (
-  inFile: string,
-  outFile: string,
-  schemaId: string
-): void => {
+export const saveSchema = (inFile: string, outFile: string): void => {
   const config = {
-    schemaId,
     path: inFile,
     tsconfig: 'tsconfig.json',
     type: '*' // Or <type-name> if you want to generate schema for that one type only
@@ -23,5 +18,5 @@ export const saveSchema = (
 const isMain = require.main === module
 
 if (isMain) {
-  saveSchema('src/data/index.ts', 'src/data/validation.json', 'ustaxes-forms')
+  saveSchema('src/data/index.ts', 'src/data/validation.json')
 }

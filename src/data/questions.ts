@@ -1,41 +1,18 @@
-import { FilingStatus, Income1099Type, Information } from '.'
-import { Either, isLeft, isRight, left, right } from '../util'
-
-// Defines usable tag names for each question later defined,
-// and maps to a type which is the expected response type.
-export interface QuestionTag {
-  CRYPTO: boolean
-  FOREIGN_ACCOUNT_EXISTS: boolean
-  FINCEN_114: boolean
-  FINCEN_114_ACCOUNT_COUNTRY: string
-  FOREIGN_TRUST_RELATIONSHIP: boolean
-  LIVE_APART_FROM_SPOUSE: boolean
-}
-
-export type QuestionTagName = keyof QuestionTag
-
-// Typescript provides no way to access
-// keys of an interface at runtime.
-export const questionTagNames: QuestionTagName[] = [
-  'CRYPTO',
-  'FOREIGN_ACCOUNT_EXISTS',
-  'FINCEN_114',
-  'FINCEN_114_ACCOUNT_COUNTRY',
-  'FOREIGN_TRUST_RELATIONSHIP',
-  'LIVE_APART_FROM_SPOUSE'
-]
-
-type ValueTag = 'string' | 'boolean'
+import {
+  FilingStatus,
+  Income1099Type,
+  Information,
+  QuestionTagName,
+  ValueTag
+} from '.'
 
 export interface Question {
   text: string
-  required: Either<boolean, (state: Information) => boolean>
+  required?: (state: Information) => boolean
   tag: QuestionTagName
   // This is repeated effort, as it has to mirror value type from QuestionTag:
   readonly valueTag: ValueTag
 }
-
-export type Responses = Partial<QuestionTag>
 
 function q(
   tag: QuestionTagName,
@@ -43,7 +20,7 @@ function q(
   valueTag: ValueTag,
   required: (s: Information) => boolean
 ): Question {
-  return { text, tag, required: right(required), valueTag }
+  return { text, tag, required, valueTag }
 }
 
 function qr(
@@ -51,7 +28,7 @@ function qr(
   text: string,
   valueTag: ValueTag = 'boolean'
 ): Question {
-  return { text, tag, required: left(true), valueTag }
+  return { text, tag, valueTag }
 }
 
 export const questions: Question[] = [
@@ -87,7 +64,4 @@ export const questions: Question[] = [
 ]
 
 export const getRequiredQuestions = (state: Information): Question[] =>
-  questions.filter(
-    (q) =>
-      isLeft(q.required) || (isRight(q.required) && q.required.right(state))
-  )
+  questions.filter((q) => q.required === undefined || q.required(state))

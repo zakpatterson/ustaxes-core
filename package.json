@@ -31,6 +31,14 @@
       "last 1 safari version"
     ]
   },
+  "jest": {
+    "testPathIgnorePatterns": [
+      "dist/*"
+    ],
+    "coveragePathIgnorePatterns": [
+      "dist/*"
+    ]
+  },
   "devDependencies": {
     "@babel/preset-env": "^7.16.0",
     "@babel/preset-typescript": "^7.16.0",

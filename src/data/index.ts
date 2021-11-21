@@ -1,5 +1,3 @@
-import { Responses } from './questions'
-
 export enum PersonRole {
   PRIMARY = 'PRIMARY',
   SPOUSE = 'SPOUSE',
@@ -314,6 +312,34 @@ export type State =
 export interface StateResidency {
   state: State
 }
+
+// Defines usable tag names for each question later defined,
+// and maps to a type which is the expected response type.
+export interface QuestionTag {
+  CRYPTO: boolean
+  FOREIGN_ACCOUNT_EXISTS: boolean
+  FINCEN_114: boolean
+  FINCEN_114_ACCOUNT_COUNTRY: string
+  FOREIGN_TRUST_RELATIONSHIP: boolean
+  LIVE_APART_FROM_SPOUSE: boolean
+}
+
+export type QuestionTagName = keyof QuestionTag
+
+// Typescript provides no way to access
+// keys of an interface at runtime.
+export const questionTagNames: QuestionTagName[] = [
+  'CRYPTO',
+  'FOREIGN_ACCOUNT_EXISTS',
+  'FINCEN_114',
+  'FINCEN_114_ACCOUNT_COUNTRY',
+  'FOREIGN_TRUST_RELATIONSHIP',
+  'LIVE_APART_FROM_SPOUSE'
+]
+
+export type ValueTag = 'string' | 'boolean'
+
+export type Responses = Partial<QuestionTag> // Defines usable tag names for each question later defined,
 
 export interface Information {
   f1099s: Supported1099[]

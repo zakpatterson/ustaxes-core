@@ -15,12 +15,13 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": false,
+    "sourceMap": true,
     "composite": true,
     "strictNullChecks": true,
     "outDir": "./dist"
   },
-  "include": ["src/**/*", "src/**/*.json", "scripts"],
-  "exclude": ["**/node_modules", "**/.*/"],
+  "include": ["src/**/*", "src/**/*.json", "scripts/**/*"],
+  "exclude": ["**/node_modules", "**/.*/", "dist/**/*"],
   "references": [],
   "ts-node": {
     "compilerOptions": {

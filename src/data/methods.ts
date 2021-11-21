@@ -1,4 +1,4 @@
-import { Responses } from './questions'
+import { Responses } from '.'
 import {
   EstimatedTaxPayments,
   F1098e,

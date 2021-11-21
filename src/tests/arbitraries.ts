@@ -1,7 +1,7 @@
 import * as fc from 'fast-check'
 import { Arbitrary } from 'fast-check'
 import locationPostalCodes from '../data/locationPostalCodes'
-import { QuestionTagName, questionTagNames, Responses } from '../data/questions'
+import { QuestionTagName, questionTagNames, Responses } from '../data'
 import F1040 from '../irsForms/F1040'
 import Form from '../irsForms/Form'
 import { create1040 } from '../irsForms/Main'
@@ -207,7 +207,7 @@ const propertyType: Arbitrary<types.PropertyTypeName> = fc.constantFrom(
 
 const propertyExpenses: Arbitrary<
   Partial<{ [K in types.PropertyExpenseTypeName]: number }>
-> = fc.set(fc.array(propExpenseTypeName)).chain((es) =>
+> = fc.set(propExpenseTypeName).chain((es) =>
   fc
     .array(expense, { minLength: es.length, maxLength: es.length })
     .map((nums) =>
@@ -351,9 +351,23 @@ const questionTag: Arbitrary<QuestionTagName> = fc.constantFrom(
   ...questionTagNames
 )
 
+// make sure that the question tag maps to values of correct type.
+const questionTagArbs = {
+  CRYPTO: fc.boolean(),
+  FOREIGN_ACCOUNT_EXISTS: fc.boolean(),
+  FINCEN_114: fc.boolean(),
+  FINCEN_114_ACCOUNT_COUNTRY: words,
+  FOREIGN_TRUST_RELATIONSHIP: fc.boolean(),
+  LIVE_APART_FROM_SPOUSE: fc.boolean()
+}
+
 export const questions: Arbitrary<Responses> = fc
   .set(questionTag)
-  .map((tags) => Object.fromEntries(tags.map((t) => [t, true])))
+  .chain((tags) =>
+    fc
+      .tuple(...tags.map((t) => questionTagArbs[t].map((v) => [t, v])))
+      .map((kvs) => Object.fromEntries(kvs))
+  )
 
 export const information: Arbitrary<types.Information> = fc
   .tuple(

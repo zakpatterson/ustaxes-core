@@ -526,9 +526,9 @@
       "additionalProperties": false
     },
     "Income1099Int": {
-      "$ref": "#/definitions/Income1099%3Cenum-src_data_index.ts-1542-1556-src_data_index.ts-1501-1599-src_data_index.ts-0-6399%2CF1099IntData%3E"
+      "$ref": "#/definitions/Income1099%3Cenum-src_data_index.ts-1501-1515-src_data_index.ts-1460-1558-src_data_index.ts-0-7175%2CF1099IntData%3E"
     },
-    "Income1099<enum-src_data_index.ts-1542-1556-src_data_index.ts-1501-1599-src_data_index.ts-0-6399,F1099IntData>": {
+    "Income1099<enum-src_data_index.ts-1501-1515-src_data_index.ts-1460-1558-src_data_index.ts-0-7175,F1099IntData>": {
       "type": "object",
       "properties": {
         "payer": {
@@ -558,9 +558,9 @@
       "additionalProperties": false
     },
     "Income1099B": {
-      "$ref": "#/definitions/Income1099%3Cenum-src_data_index.ts-1531-1541-src_data_index.ts-1501-1599-src_data_index.ts-0-6399%2CF1099BData%3E"
+      "$ref": "#/definitions/Income1099%3Cenum-src_data_index.ts-1490-1500-src_data_index.ts-1460-1558-src_data_index.ts-0-7175%2CF1099BData%3E"
     },
-    "Income1099<enum-src_data_index.ts-1531-1541-src_data_index.ts-1501-1599-src_data_index.ts-0-6399,F1099BData>": {
+    "Income1099<enum-src_data_index.ts-1490-1500-src_data_index.ts-1460-1558-src_data_index.ts-0-7175,F1099BData>": {
       "type": "object",
       "properties": {
         "payer": {
@@ -590,9 +590,9 @@
       "additionalProperties": false
     },
     "Income1099Div": {
-      "$ref": "#/definitions/Income1099%3Cenum-src_data_index.ts-1557-1571-src_data_index.ts-1501-1599-src_data_index.ts-0-6399%2CF1099DivData%3E"
+      "$ref": "#/definitions/Income1099%3Cenum-src_data_index.ts-1516-1530-src_data_index.ts-1460-1558-src_data_index.ts-0-7175%2CF1099DivData%3E"
     },
-    "Income1099<enum-src_data_index.ts-1557-1571-src_data_index.ts-1501-1599-src_data_index.ts-0-6399,F1099DivData>": {
+    "Income1099<enum-src_data_index.ts-1516-1530-src_data_index.ts-1460-1558-src_data_index.ts-0-7175,F1099DivData>": {
       "type": "object",
       "properties": {
         "payer": {
@@ -622,9 +622,9 @@
       "additionalProperties": false
     },
     "Income1099R": {
-      "$ref": "#/definitions/Income1099%3Cenum-src_data_index.ts-1572-1582-src_data_index.ts-1501-1599-src_data_index.ts-0-6399%2CF1099RData%3E"
+      "$ref": "#/definitions/Income1099%3Cenum-src_data_index.ts-1531-1541-src_data_index.ts-1460-1558-src_data_index.ts-0-7175%2CF1099RData%3E"
     },
-    "Income1099<enum-src_data_index.ts-1572-1582-src_data_index.ts-1501-1599-src_data_index.ts-0-6399,F1099RData>": {
+    "Income1099<enum-src_data_index.ts-1531-1541-src_data_index.ts-1460-1558-src_data_index.ts-0-7175,F1099RData>": {
       "type": "object",
       "properties": {
         "payer": {
@@ -654,9 +654,9 @@
       "additionalProperties": false
     },
     "Income1099SSA": {
-      "$ref": "#/definitions/Income1099%3Cenum-src_data_index.ts-1583-1597-src_data_index.ts-1501-1599-src_data_index.ts-0-6399%2CF1099SSAData%3E"
+      "$ref": "#/definitions/Income1099%3Cenum-src_data_index.ts-1542-1556-src_data_index.ts-1460-1558-src_data_index.ts-0-7175%2CF1099SSAData%3E"
     },
-    "Income1099<enum-src_data_index.ts-1583-1597-src_data_index.ts-1501-1599-src_data_index.ts-0-6399,F1099SSAData>": {
+    "Income1099<enum-src_data_index.ts-1542-1556-src_data_index.ts-1460-1558-src_data_index.ts-0-7175,F1099SSAData>": {
       "type": "object",
       "properties": {
         "payer": {
@@ -886,6 +886,80 @@
       ],
       "additionalProperties": false
     },
+    "QuestionTag": {
+      "type": "object",
+      "properties": {
+        "CRYPTO": {
+          "type": "boolean"
+        },
+        "FOREIGN_ACCOUNT_EXISTS": {
+          "type": "boolean"
+        },
+        "FINCEN_114": {
+          "type": "boolean"
+        },
+        "FINCEN_114_ACCOUNT_COUNTRY": {
+          "type": "string"
+        },
+        "FOREIGN_TRUST_RELATIONSHIP": {
+          "type": "boolean"
+        },
+        "LIVE_APART_FROM_SPOUSE": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "CRYPTO",
+        "FOREIGN_ACCOUNT_EXISTS",
+        "FINCEN_114",
+        "FINCEN_114_ACCOUNT_COUNTRY",
+        "FOREIGN_TRUST_RELATIONSHIP",
+        "LIVE_APART_FROM_SPOUSE"
+      ],
+      "additionalProperties": false
+    },
+    "QuestionTagName": {
+      "type": "string",
+      "enum": [
+        "CRYPTO",
+        "FOREIGN_ACCOUNT_EXISTS",
+        "FINCEN_114",
+        "FINCEN_114_ACCOUNT_COUNTRY",
+        "FOREIGN_TRUST_RELATIONSHIP",
+        "LIVE_APART_FROM_SPOUSE"
+      ]
+    },
+    "ValueTag": {
+      "type": "string",
+      "enum": [
+        "string",
+        "boolean"
+      ]
+    },
+    "Responses": {
+      "type": "object",
+      "properties": {
+        "CRYPTO": {
+          "type": "boolean"
+        },
+        "FOREIGN_ACCOUNT_EXISTS": {
+          "type": "boolean"
+        },
+        "FINCEN_114": {
+          "type": "boolean"
+        },
+        "FINCEN_114_ACCOUNT_COUNTRY": {
+          "type": "string"
+        },
+        "FOREIGN_TRUST_RELATIONSHIP": {
+          "type": "boolean"
+        },
+        "LIVE_APART_FROM_SPOUSE": {
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": false
+    },
     "Information": {
       "type": "object",
       "properties": {
@@ -945,30 +1019,6 @@
         "questions",
         "stateResidencies"
       ],
-      "additionalProperties": false
-    },
-    "Responses": {
-      "type": "object",
-      "properties": {
-        "CRYPTO": {
-          "type": "boolean"
-        },
-        "FOREIGN_ACCOUNT_EXISTS": {
-          "type": "boolean"
-        },
-        "FINCEN_114": {
-          "type": "boolean"
-        },
-        "FINCEN_114_ACCOUNT_COUNTRY": {
-          "type": "string"
-        },
-        "FOREIGN_TRUST_RELATIONSHIP": {
-          "type": "boolean"
-        },
-        "LIVE_APART_FROM_SPOUSE": {
-          "type": "boolean"
-        }
-      },
       "additionalProperties": false
     }
   }
