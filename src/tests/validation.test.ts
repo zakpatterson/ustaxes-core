@@ -5,7 +5,6 @@ import { Address } from '../data'
 import log from '../log'
 import schema from '../data/validation.json'
 import Ajv from 'ajv'
-import { isToken } from 'typescript'
 
 const ajv = new Ajv({ schemas: [schema] })
 

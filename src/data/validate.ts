@@ -75,7 +75,35 @@ export const f1098e = getShort<types.F1098e>('F1098e')
 export const responses = getShort<types.Responses>('Responses')
 export const stateResidency = getShort<types.StateResidency>('StateResidency')
 
-export const validators = (ajv: Ajv) => ({
+type Validators = {
+  personRole: ValidateFunction<types.PersonRole>
+  contactInfo: ValidateFunction<types.ContactInfo>
+  Address: ValidateFunction<types.Address>
+  accountType: ValidateFunction<types.AccountType>
+  employer: ValidateFunction<types.Employer>
+  filingStatus: ValidateFunction<types.FilingStatus>
+  primaryPerson: ValidateFunction<types.PrimaryPerson>
+  spouse: ValidateFunction<types.Spouse>
+  person: ValidateFunction<types.Person>
+  dependent: ValidateFunction<types.Dependent>
+  intData: ValidateFunction<types.F1099IntData>
+  bData: ValidateFunction<types.F1099BData>
+  income1099Int: ValidateFunction<types.Income1099Int>
+  income1099B: ValidateFunction<types.Income1099B>
+  supported1099: ValidateFunction<types.Supported1099>
+  incomeW2: ValidateFunction<types.IncomeW2>
+  estimatedTaxPayments: ValidateFunction<types.EstimatedTaxPayments>
+  refund: ValidateFunction<types.Refund>
+  taxPayer: ValidateFunction<types.TaxPayer>
+  information: ValidateFunction<types.Information>
+  property: ValidateFunction<types.Property>
+  propertyType: ValidateFunction<types.PropertyType>
+  f1098e: ValidateFunction<types.F1098e>
+  responses: ValidateFunction<types.Responses>
+  stateResidency: ValidateFunction<types.StateResidency>
+}
+
+export const validators = (ajv: Ajv): Validators => ({
   personRole: personRole(ajv),
   contactInfo: contactInfo(ajv),
   Address: Address(ajv),
