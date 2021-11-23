@@ -2,9 +2,13 @@ name: ESLint Action
 
 on:
   push:
-    branches: [ master ]
+    branches:
+      - main-2020
+      - main-2021
   pull_request:
-    branches: [ master ]
+    branches:
+      - main-2020
+      - main-2021
 
 jobs:
   build:
