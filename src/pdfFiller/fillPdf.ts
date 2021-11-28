@@ -1,5 +1,6 @@
 import { PDFDocument, PDFCheckBox, PDFTextField } from 'pdf-lib'
 import { Field } from '.'
+import { displayRound } from '../irsForms/util'
 
 /**
  * Attempt to fill fields in a PDF from a Form,
@@ -30,7 +31,10 @@ export function fillPDF(pdf: PDFDocument, fieldValues: Field[]): void {
       }
     } else if (pdfField instanceof PDFTextField) {
       try {
-        pdfField.setText(value?.toString())
+        const showValue = !isNaN(value as number)
+          ? displayRound(value as number | undefined)?.toString()
+          : value?.toString()
+        pdfField.setText(showValue)
       } catch (error) {
         console.error(`Error at index ${index}`)
         console.error(`Field: ${pdfField.getName()}`)

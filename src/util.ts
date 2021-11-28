@@ -79,3 +79,17 @@ export const isRight = <E, A>(e: Either<E, A>): e is Right<A> =>
 export const isDesktop = (): boolean => (window as any).__TAURI__ !== undefined
 
 export const isWeb = (): boolean => !isDesktop()
+
+// Decimal precision
+
+const fixDecimals =
+  (n: number) =>
+  (x: number): number => {
+    const mul = Math.pow(10, n)
+    return Math.round(x * mul) / mul
+  }
+
+export const fix2 = fixDecimals(2)
+export const fix0 = (n: number): number => Math.round(n)
+export const fix5 = fixDecimals(5)
+export const fix10 = fixDecimals(10)

@@ -49,10 +49,21 @@ const concat = (
 
 // Ideally these would be normally distributed...
 const wages: Arbitrary<number> = fc.nat({ max: 10000000 })
-const investment: Arbitrary<number> = fc.nat({ max: 100000 })
-const expense: Arbitrary<number> = fc.nat({ max: 10000 })
-const interest: Arbitrary<number> = fc.nat({ max: 2000 })
-const payment: Arbitrary<number> = fc.nat({ max: 200000 })
+const posCurrency = (max: number): Arbitrary<number> =>
+  fc.nat({ max: max * 100 }).map((x) => x / 100)
+const posNegCurrency = (max: number): Arbitrary<number> =>
+  fc
+    .integer({
+      min: -max * 100,
+      max: max * 100
+    })
+    .map((x) => x / 100)
+const investment = posCurrency(100000)
+const investmentResult = posNegCurrency(100000)
+const expense: Arbitrary<number> = posCurrency(10000)
+const interest: Arbitrary<number> = posCurrency(10000)
+const payment: Arbitrary<number> = fc.nat({ max: 100000 })
+
 const daysInYear = (currentYear: number): Arbitrary<number> =>
   fc.nat({
     max: util.daysInYear(currentYear)
@@ -145,12 +156,15 @@ export const f1099IntData: Arbitrary<types.F1099IntData> = fc
   .nat()
   .map((income) => ({ income }))
 
-export const f1099DivData: Arbitrary<types.F1099DivData> = fc
-  .tuple(investment, investment)
-  .map(([dividends, qualifiedDividends]) => ({ dividends, qualifiedDividends }))
+export const f1099DivData: Arbitrary<types.F1099DivData> = interest.chain(
+  (dividends) =>
+    fc
+      .nat({ max: dividends * 100 })
+      .map((qdiv) => ({ dividends, qualifiedDividends: qdiv / 100 }))
+)
 
 export const f1099BData: Arbitrary<types.F1099BData> = fc
-  .tuple(investment, investment, investment, investment)
+  .tuple(investmentResult, investment, investmentResult, investment)
   .map(
     ([
       shortTermProceeds,

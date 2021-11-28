@@ -71,7 +71,7 @@ const buildSource = (doc: PDFDocument, formName: string): string => {
   return `import Form from '../Form'
 import F1040 from '../../irsForms/F1040'
 import { Field } from '../../pdfFiller'
-import { displayNumber, sumFields } from '../../irsForms/util'
+import { sumFields } from '../../irsForms/util'
 import { AccountType, FilingStatus, Information, State } from '../../data'
 
 export class ${className} extends Form {
@@ -90,13 +90,7 @@ export class ${className} extends Form {
 ${impls.join('\n')}
 
   const fields = (): Field[] => ([
-${functionNames
-  .map((name) =>
-    name.startsWith('l')
-      ? `    displayNumber(this.${name}())`
-      : `    this.${name}()`
-  )
-  .join(',\n')}
+${functionNames.join(',\n')}
   ])
 }
 
