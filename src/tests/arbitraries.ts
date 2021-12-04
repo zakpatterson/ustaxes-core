@@ -2,14 +2,9 @@ import * as fc from 'fast-check'
 import { Arbitrary } from 'fast-check'
 import locationPostalCodes from '../data/locationPostalCodes'
 import { QuestionTagName, questionTagNames, Responses } from '../data'
-import F1040 from '../irsForms/F1040'
-import Form from '../irsForms/Form'
-import { create1040 } from '../irsForms/Main'
 import * as types from '../data'
 import * as util from '../util'
 import _ from 'lodash'
-
-const CURRENT_YEAR = 2020
 
 const lower: Arbitrary<string> = fc
   .integer({ min: 0x61, max: 0x7a })
@@ -63,22 +58,6 @@ const investmentResult = posNegCurrency(100000)
 const expense: Arbitrary<number> = posCurrency(10000)
 const interest: Arbitrary<number> = posCurrency(10000)
 const payment: Arbitrary<number> = fc.nat({ max: 100000 })
-
-const daysInYear = (currentYear: number): Arbitrary<number> =>
-  fc.nat({
-    max: util.daysInYear(currentYear)
-  })
-
-const daysInYearPair = (currentYear: number): Arbitrary<[number, number]> =>
-  daysInYear(currentYear).chain((d) =>
-    fc.nat({ max: util.daysInYear(currentYear) - d }).map((d2) => [d, d2])
-  )
-
-const birthYear = (max: number): Arbitrary<number> =>
-  fc.integer({
-    min: 1900,
-    max
-  })
 
 const payerName: Arbitrary<string> = maxWords(3)
 
@@ -232,37 +211,6 @@ const propertyExpenses: Arbitrary<
     )
 )
 
-export const property: Arbitrary<types.Property> = fc
-  .tuple(
-    address,
-    daysInYearPair(CURRENT_YEAR),
-    investment,
-    propertyType,
-    words,
-    fc.boolean(),
-    propertyExpenses
-  )
-  .map(
-    ([
-      address,
-      [rentalDays, personalUseDays],
-      rentReceived,
-      propertyType,
-      otherPropertyType,
-      qualifiedJointVenture,
-      expenses
-    ]) => ({
-      address,
-      rentalDays,
-      personalUseDays,
-      rentReceived,
-      propertyType,
-      otherPropertyType,
-      qualifiedJointVenture,
-      expenses
-    })
-  )
-
 const f1098e: Arbitrary<types.F1098e> = fc
   .tuple(maxWords(2), interest)
   .map(([lender, interest]) => ({
@@ -318,49 +266,6 @@ export const spouse: Arbitrary<types.Spouse> = fc
     isTaxpayerDependent
   }))
 
-const qualifyingInformation: Arbitrary<types.QualifyingInformation> = fc
-  .tuple(birthYear(CURRENT_YEAR), fc.nat({ max: 12 }), fc.boolean())
-  .map(([birthYear, numberOfMonths, isStudent]) => ({
-    birthYear,
-    numberOfMonths,
-    isStudent
-  }))
-
-export const dependent: Arbitrary<types.Dependent> = fc
-  .tuple(person, word, qualifyingInformation)
-  .map(([person, relationship, qualifyingInfo]) => ({
-    ...person,
-    relationship,
-    qualifyingInfo
-  }))
-
-export const taxPayer: Arbitrary<types.TaxPayer> = fc
-  .tuple(
-    filingStatus,
-    primaryPerson,
-    spouse,
-    fc.array(dependent),
-    email,
-    phoneNumber
-  )
-  .map(
-    ([
-      filingStatus,
-      primaryPerson,
-      spouse,
-      dependents,
-      contactEmail,
-      contactPhoneNumber
-    ]) => ({
-      filingStatus,
-      primaryPerson,
-      spouse,
-      dependents,
-      contactEmail,
-      contactPhoneNumber
-    })
-  )
-
 const questionTag: Arbitrary<QuestionTagName> = fc.constantFrom(
   ...questionTagNames
 )
@@ -383,43 +288,145 @@ export const questions: Arbitrary<Responses> = fc
       .map((kvs) => Object.fromEntries(kvs))
   )
 
-export const information: Arbitrary<types.Information> = fc
-  .tuple(
-    fc.array(f1099),
-    fc.array(w2),
-    fc.array(property),
-    fc.array(estTax),
-    fc.array(f1098e),
-    refund,
-    taxPayer,
-    questions,
-    state
-  )
-  .map(
-    ([
-      f1099s,
-      w2s,
-      realEstate,
-      estimatedTaxes,
-      f1098es,
-      refund,
-      taxPayer,
-      questions,
-      state
-    ]) => ({
-      f1099s,
-      w2s,
-      realEstate,
-      estimatedTaxes,
-      f1098es,
-      refund,
-      taxPayer,
-      questions,
-      stateResidencies: [{ state }]
-    })
-  )
+class Arbitraries {
+  currentYear: number
 
-export const f1040: Arbitrary<[F1040, Form[]]> = information
-  .map((information) => create1040(information))
-  .filter((res) => util.isRight(res))
-  .map((res) => (res as util.Right<[F1040, Form[]]>).right)
+  constructor(currentYear: number) {
+    this.currentYear = currentYear
+  }
+
+  daysInYear = (): Arbitrary<number> =>
+    fc.nat({
+      max: util.daysInYear(this.currentYear)
+    })
+
+  daysInYearPair = (): Arbitrary<[number, number]> =>
+    this.daysInYear().chain((d) =>
+      fc
+        .nat({ max: util.daysInYear(this.currentYear) - d })
+        .map((d2) => [d, d2])
+    )
+
+  birthYear = (): Arbitrary<number> =>
+    fc.integer({
+      min: 1900,
+      max: this.currentYear
+    })
+
+  property = (): Arbitrary<types.Property> =>
+    fc
+      .tuple(
+        address,
+        this.daysInYearPair(),
+        investment,
+        propertyType,
+        words,
+        fc.boolean(),
+        propertyExpenses
+      )
+      .map(
+        ([
+          address,
+          [rentalDays, personalUseDays],
+          rentReceived,
+          propertyType,
+          otherPropertyType,
+          qualifiedJointVenture,
+          expenses
+        ]) => ({
+          address,
+          rentalDays,
+          personalUseDays,
+          rentReceived,
+          propertyType,
+          otherPropertyType,
+          qualifiedJointVenture,
+          expenses
+        })
+      )
+
+  qualifyingInformation = (): Arbitrary<types.QualifyingInformation> =>
+    fc
+      .tuple(this.birthYear(), fc.nat({ max: 12 }), fc.boolean())
+      .map(([birthYear, numberOfMonths, isStudent]) => ({
+        birthYear,
+        numberOfMonths,
+        isStudent
+      }))
+
+  dependent = (): Arbitrary<types.Dependent> =>
+    fc
+      .tuple(person, word, this.qualifyingInformation())
+      .map(([person, relationship, qualifyingInfo]) => ({
+        ...person,
+        relationship,
+        qualifyingInfo
+      }))
+
+  taxPayer = (): Arbitrary<types.TaxPayer> =>
+    fc
+      .tuple(
+        filingStatus,
+        primaryPerson,
+        spouse,
+        fc.array(this.dependent()),
+        email,
+        phoneNumber
+      )
+      .map(
+        ([
+          filingStatus,
+          primaryPerson,
+          spouse,
+          dependents,
+          contactEmail,
+          contactPhoneNumber
+        ]) => ({
+          filingStatus,
+          primaryPerson,
+          spouse,
+          dependents,
+          contactEmail,
+          contactPhoneNumber
+        })
+      )
+
+  information = (): Arbitrary<types.Information> =>
+    fc
+      .tuple(
+        fc.array(f1099),
+        fc.array(w2),
+        fc.array(this.property()),
+        fc.array(estTax),
+        fc.array(f1098e),
+        refund,
+        this.taxPayer(),
+        questions,
+        state
+      )
+      .map(
+        ([
+          f1099s,
+          w2s,
+          realEstate,
+          estimatedTaxes,
+          f1098es,
+          refund,
+          taxPayer,
+          questions,
+          state
+        ]) => ({
+          f1099s,
+          w2s,
+          realEstate,
+          estimatedTaxes,
+          f1098es,
+          refund,
+          taxPayer,
+          questions,
+          stateResidencies: [{ state }]
+        })
+      )
+}
+
+export const forYear = (year: number): Arbitraries => new Arbitraries(year)

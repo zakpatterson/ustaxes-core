@@ -1,4 +1,3 @@
-import F1040 from '../irsForms/F1040'
 import Fill from '../pdfFiller/Fill'
 import { IncomeW2, Information, State } from '../data'
 
@@ -11,7 +10,6 @@ export default abstract class Form extends Fill {
   abstract formOrder: number
   abstract attachments: () => Form[]
   abstract info: Information
-  abstract f1040: F1040
 }
 
 /**
@@ -25,7 +23,7 @@ export class FormMethods {
   }
 
   stateW2s = (): IncomeW2[] =>
-    this.form.f1040.validW2s().filter((w2) => w2.state === this.form.state)
+    this.form.info.w2s.filter((w2) => w2.state === this.form.state)
 
   stateWithholding = (): number =>
     this.stateW2s().reduce(

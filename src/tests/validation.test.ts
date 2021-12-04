@@ -46,7 +46,7 @@ describe('validation', () => {
 
   it('checks dependent', () => {
     fc.assert(
-      fc.property(arbitraries.dependent, (data) => {
+      fc.property(arbitraries.forYear(2020).dependent(), (data) => {
         expect(validators.checkType(data, validators.dependent(ajv))).toEqual(
           data
         )
@@ -56,7 +56,7 @@ describe('validation', () => {
 
   it('checkType should not modify correct data', () => {
     fc.assert(
-      fc.property(arbitraries.information, (info) => {
+      fc.property(arbitraries.forYear(2020).information(), (info) => {
         expect(validators.checkType(info, validators.information(ajv))).toEqual(
           info
         )
