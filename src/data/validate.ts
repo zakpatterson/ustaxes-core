@@ -1,16 +1,11 @@
 import Ajv, { DefinedError, ValidateFunction } from 'ajv'
+import * as schema from './validation.json'
 import log from '../log'
 import * as types from './index'
 
 // We will simply throw a runtime error if the data does not
 // validate against the schema.definitions.
 export const checkType = <A>(data: A, validate: ValidateFunction<A>): A => {
-  if (validate === null || validate === undefined) {
-    log.error('validate is null or undefined')
-    log.error('data was ')
-    log.error(data)
-    throw new Error('No validation function provided')
-  }
   validate(data)
   if (validate.errors !== null) {
     // Taken from doc example: The type cast is needed to allow user-defined keywords and errors
@@ -24,109 +19,40 @@ export const checkType = <A>(data: A, validate: ValidateFunction<A>): A => {
 
     log.error(validate.errors)
     log.error(data)
-
-    throw new Error('Validation failed')
   }
 
   return data
 }
 
-const get =
-  <A>(name: string) =>
-  (ajv: Ajv): ValidateFunction<A> => {
-    const found = ajv.getSchema(name) as ValidateFunction<A> | undefined
-    if (found === undefined) {
-      console.info(ajv)
-      throw new Error(`Attempted to get schema name ${name}, not found`)
-    }
-    return found
-  }
+const ajv = new Ajv().addSchema(schema)
 
-export const getShort =
-  <A>(shortName: string) =>
-  (ajv: Ajv): ValidateFunction<A> =>
-    get<A>(`#/definitions/${shortName}`)(ajv)
+// Doing this seems to be necessary so that recursive self
+// links (ref fields) are created properly. Without it we get
+// undefined is not a function errors as refs are not present
+export const personRole = ajv.getSchema<types.PersonRole>('#/definitions/PersonRole')
+export const contactInfo = ajv.getSchema<types.ContactInfo>('#/definitions/ContactInfo')
+export const address = ajv.getSchema<types.Address>('#/definitions/Address')
+export const accountType = ajv.getSchema<types.AccountType>('#/definitions/AccountType')
+export const employer = ajv.getSchema<types.Employer>('#/definitions/Employer')
+export const filingStatus = ajv.getSchema<types.FilingStatus>('#/definitions/FilingStatus')
+export const primaryPerson = ajv.getSchema<types.PrimaryPerson>('#/definitions/PrimaryPerson')
+export const spouse = ajv.getSchema<types.Spouse>('#/definitions/Spouse')
+export const person = ajv.getSchema<types.Person>('#/definitions/Person')
+export const dependent = ajv.getSchema<types.Dependent>('#/definitions/Dependent')
+export const intData = ajv.getSchema<types.F1099IntData>('#/definitions/F1099IntData')
+export const bData = ajv.getSchema<types.F1099BData>('#/definitions/F1099BData')
+export const income1099Int = ajv.getSchema<types.Income1099Int>('#/definitions/Income1099Int')
+export const income1099B = ajv.getSchema<types.Income1099B>('#/definitions/Income1099B')
+export const supported1099 = ajv.getSchema<types.Supported1099>('#/definitions/Supported1099')
+export const incomeW2 = ajv.getSchema<types.IncomeW2>('#/definitions/IncomeW2')
+export const estimatedTaxPayments = ajv.getSchema<types.EstimatedTaxPayments>('#/definitions/EstimatedTaxPayments')
+export const refund = ajv.getSchema<types.Refund>('#/definitions/Refund')
+export const taxPayer = ajv.getSchema<types.TaxPayer>('#/definitions/TaxPayer')
+export const information = ajv.getSchema<types.Information>('#/definitions/Information')
+export const property = ajv.getSchema<types.Property>('#/definitions/Property')
+export const propertyType = ajv.getSchema<types.PropertyType>('#/definitions/PropertyType')
+export const f1098e = ajv.getSchema<types.F1098e>('#/definitions/F1098e')
+export const responses = ajv.getSchema<types.Responses>('#/definitions/Responses')
+export const stateResidency = ajv.getSchema<types.StateResidency>('#/definitions/StateResidency')
 
-export const personRole = getShort<types.PersonRole>('PersonRole')
-export const contactInfo = getShort<types.ContactInfo>('ContactInfo')
-export const Address = getShort<types.Address>('Address')
-export const accountType = getShort<types.AccountType>('AccountType')
-export const employer = getShort<types.Employer>('Employer')
-export const filingStatus = getShort<types.FilingStatus>('FilingStatus')
-export const primaryPerson = getShort<types.PrimaryPerson>('PrimaryPerson')
-export const spouse = getShort<types.Spouse>('Spouse')
-export const person = getShort<types.Person>('Person')
-export const dependent = getShort<types.Dependent>('Dependent')
-export const intData = getShort<types.F1099IntData>('F1099IntData')
-export const bData = getShort<types.F1099BData>('F1099BData')
-export const income1099Int = getShort<types.Income1099Int>('Income1099Int')
-export const income1099B = getShort<types.Income1099B>('Income1099B')
-export const supported1099 = getShort<types.Supported1099>('Supported1099')
-export const incomeW2 = getShort<types.IncomeW2>('IncomeW2')
-export const estimatedTaxPayments = getShort<types.EstimatedTaxPayments>(
-  'EstimatedTaxPayments'
-)
-export const refund = getShort<types.Refund>('Refund')
-export const taxPayer = getShort<types.TaxPayer>('TaxPayer')
-export const information = getShort<types.Information>('Information')
-export const property = getShort<types.Property>('Property')
-export const propertyType = getShort<types.PropertyType>('PropertyType')
-export const f1098e = getShort<types.F1098e>('F1098e')
-export const responses = getShort<types.Responses>('Responses')
-export const stateResidency = getShort<types.StateResidency>('StateResidency')
-
-type Validators = {
-  personRole: ValidateFunction<types.PersonRole>
-  contactInfo: ValidateFunction<types.ContactInfo>
-  Address: ValidateFunction<types.Address>
-  accountType: ValidateFunction<types.AccountType>
-  employer: ValidateFunction<types.Employer>
-  filingStatus: ValidateFunction<types.FilingStatus>
-  primaryPerson: ValidateFunction<types.PrimaryPerson>
-  spouse: ValidateFunction<types.Spouse>
-  person: ValidateFunction<types.Person>
-  dependent: ValidateFunction<types.Dependent>
-  intData: ValidateFunction<types.F1099IntData>
-  bData: ValidateFunction<types.F1099BData>
-  income1099Int: ValidateFunction<types.Income1099Int>
-  income1099B: ValidateFunction<types.Income1099B>
-  supported1099: ValidateFunction<types.Supported1099>
-  incomeW2: ValidateFunction<types.IncomeW2>
-  estimatedTaxPayments: ValidateFunction<types.EstimatedTaxPayments>
-  refund: ValidateFunction<types.Refund>
-  taxPayer: ValidateFunction<types.TaxPayer>
-  information: ValidateFunction<types.Information>
-  property: ValidateFunction<types.Property>
-  propertyType: ValidateFunction<types.PropertyType>
-  f1098e: ValidateFunction<types.F1098e>
-  responses: ValidateFunction<types.Responses>
-  stateResidency: ValidateFunction<types.StateResidency>
-}
-
-export const validators = (ajv: Ajv): Validators => ({
-  personRole: personRole(ajv),
-  contactInfo: contactInfo(ajv),
-  Address: Address(ajv),
-  accountType: accountType(ajv),
-  employer: employer(ajv),
-  filingStatus: filingStatus(ajv),
-  primaryPerson: primaryPerson(ajv),
-  spouse: spouse(ajv),
-  person: person(ajv),
-  dependent: dependent(ajv),
-  intData: intData(ajv),
-  bData: bData(ajv),
-  income1099Int: income1099Int(ajv),
-  income1099B: income1099B(ajv),
-  supported1099: supported1099(ajv),
-  incomeW2: incomeW2(ajv),
-  estimatedTaxPayments: estimatedTaxPayments(ajv),
-  refund: refund(ajv),
-  taxPayer: taxPayer(ajv),
-  information: information(ajv),
-  property: property(ajv),
-  propertyType: propertyType(ajv),
-  f1098e: f1098e(ajv),
-  responses: responses(ajv),
-  stateResidency: stateResidency(ajv)
-})
+export default ajv

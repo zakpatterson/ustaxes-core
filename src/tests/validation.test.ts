@@ -1,12 +1,9 @@
 import * as arbitraries from './arbitraries'
 import * as fc from 'fast-check'
-import * as validators from '../data/validate'
 import { Address } from '../data'
 import log from '../log'
-import schema from '../data/validation.json'
-import Ajv from 'ajv'
-
-const ajv = new Ajv({ schemas: [schema] })
+import ajv from '../data/validate'
+import * as validators from '../data/validate'
 
 /* eslint-disable @typescript-eslint/no-empty-function */
 beforeAll(() => {
@@ -23,7 +20,7 @@ describe('validation', () => {
   it('should validate some data', () => {
     fc.assert(
       fc.property(arbitraries.primaryPerson, (data) => {
-        expect(validators.primaryPerson(ajv)(data)).toEqual(true)
+        expect(validators.primaryPerson?.(data)).toEqual(true)
       })
     )
   })
@@ -37,7 +34,7 @@ describe('validation', () => {
               ...data,
               address: '123 hi street' as unknown as Address
             },
-            validators.primaryPerson(ajv)
+            validators.primaryPerson!
           )
         ).toThrow()
       })
@@ -47,7 +44,7 @@ describe('validation', () => {
   it('checks dependent', () => {
     fc.assert(
       fc.property(arbitraries.forYear(2020).dependent(), (data) => {
-        expect(validators.checkType(data, validators.dependent(ajv))).toEqual(
+        expect(validators.checkType(data, validators.dependent!)).toEqual(
           data
         )
       })
@@ -57,7 +54,7 @@ describe('validation', () => {
   it('checkType should not modify correct data', () => {
     fc.assert(
       fc.property(arbitraries.forYear(2020).information(), (info) => {
-        expect(validators.checkType(info, validators.information(ajv))).toEqual(
+        expect(validators.checkType(info, validators.information!)).toEqual(
           info
         )
       })
