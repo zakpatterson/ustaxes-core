@@ -39,3 +39,4 @@ validation.json
 !/dist/package.json
 !/dist/package-lock.json
 /tsconfig.tsbuildinfo
+/src/data/validation.json
