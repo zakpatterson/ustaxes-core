@@ -288,7 +288,7 @@ export const questions: Arbitrary<Responses> = fc
       .map((kvs) => Object.fromEntries(kvs))
   )
 
-class Arbitraries {
+export class Arbitraries {
   currentYear: number
 
   constructor(currentYear: number) {

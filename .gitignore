@@ -33,4 +33,9 @@ yarn-error.log*
 
 # output of schema generator
 validation.json
-/dist/
+/dist/*
+// These accessory package files ship with build packages, so they're necessary
+// They should be kept in sync with the main project one.
+!/dist/package.json
+!/dist/package-lock.json
+/tsconfig.tsbuildinfo

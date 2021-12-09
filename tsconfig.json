@@ -2,7 +2,6 @@
   "compilerOptions": {
     "target": "es5",
     "lib": ["dom", "dom.iterable", "esnext"],
-    "typeRoots": ["src/customTypes", "node_modules/@types"],
     "allowJs": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
@@ -16,12 +15,13 @@
     "isolatedModules": true,
     "noEmit": false,
     "sourceMap": true,
-    "composite": true,
     "strictNullChecks": true,
-    "outDir": "./dist"
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "declaration": true
   },
-  "include": ["src/**/*", "src/**/*.json", "scripts/**/*"],
-  "exclude": ["**/node_modules", "**/.*/", "dist/**/*"],
+  "include": ["src/**/*.ts", "src/*.ts", "src/**/*.json"],
+  "exclude": [],
   "references": [],
   "ts-node": {
     "compilerOptions": {
