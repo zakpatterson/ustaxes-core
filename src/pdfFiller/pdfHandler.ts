@@ -12,8 +12,12 @@ export const downloadPDF: PDFDownloader = async (url) => {
   return await PDFDocument.load(buffer)
 }
 
-export const combinePdfs = async (pdfFiles: PDFDocument[]): Promise<PDFDocument> => {
-  const [head, ...rest] = await Promise.all(pdfFiles.map(async (pdf) => PDFDocument.load(await pdf.save())))
+export const combinePdfs = async (
+  pdfFiles: PDFDocument[]
+): Promise<PDFDocument> => {
+  const [head, ...rest] = await Promise.all(
+    pdfFiles.map(async (pdf) => PDFDocument.load(await pdf.save()))
+  )
 
   // Make sure we combine the documents from left to right and preserve order
   return rest.reduce(async (l, r) => {

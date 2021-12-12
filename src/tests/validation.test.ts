@@ -44,9 +44,7 @@ describe('validation', () => {
   it('checks dependent', () => {
     fc.assert(
       fc.property(arbitraries.forYear(2020).dependent(), (data) => {
-        expect(validators.checkType(data, validators.dependent!)).toEqual(
-          data
-        )
+        expect(validators.checkType(data, validators.dependent!)).toEqual(data)
       })
     )
   })

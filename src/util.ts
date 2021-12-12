@@ -5,7 +5,7 @@
  * @returns tyepsafe array of keys
  */
 
-import { PDFDocument } from "pdf-lib"
+import { PDFDocument } from 'pdf-lib'
 
 export const enumKeys = <A>(a: A): Array<keyof typeof a> =>
   Object.keys(a).filter((k) => isNaN(Number(k))) as Array<keyof typeof a>
@@ -77,7 +77,6 @@ export const isLeft = <E, A>(e: Either<E, A>): e is Left<E> => e._tag === 'left'
 export const isRight = <E, A>(e: Either<E, A>): e is Right<A> =>
   e._tag === 'right'
 
-
 // FP style Either type that also handles promises.
 class EitherMethods<E, A> {
   e: Either<E, A>
@@ -86,10 +85,8 @@ class EitherMethods<E, A> {
     this.e = e
   }
 
-  map = <B>(f: (a: A) => B): EitherMethods<E, B> => 
-    isLeft(this.e)
-      ? pureLeft(this.e.left)
-      : pure(f(this.e.right))
+  map = <B>(f: (a: A) => B): EitherMethods<E, B> =>
+    isLeft(this.e) ? pureLeft(this.e.left) : pure(f(this.e.right))
 
   ap = <B>(fab: Either<E, (a: A) => B>): EitherMethods<E, B> =>
     isLeft(fab) ? new EitherMethods(left(fab.left)) : this.map(fab.right)
@@ -106,14 +103,16 @@ class EitherMethods<E, A> {
   handle = <B>(f: (e: E) => B): B | void => this.fold(f, () => {})
 
   orThrow = (): A => {
-    if(isLeft(this.e)) {
+    if (isLeft(this.e)) {
       throw this.e.left
     }
     return this.e.right
   }
-  
-  mapAsync = async <B>(f: (a: A) => Promise<B>): Promise<EitherMethods<E, B>> => {
-    if(isLeft(this.e)){
+
+  mapAsync = async <B>(
+    f: (a: A) => Promise<B>
+  ): Promise<EitherMethods<E, B>> => {
+    if (isLeft(this.e)) {
       return Promise.resolve(pureLeft(this.e.left))
     } else {
       return pure(await f(this.e.right))
@@ -123,12 +122,16 @@ class EitherMethods<E, A> {
   value = (): Either<E, A> => this.e
 }
 
-export const pureLeft = <A, E = unknown>(e: E): EitherMethods<E, A> => new EitherMethods(left(e))
-export const pure = <E, A = unknown>(a: A): EitherMethods<E, A> => new EitherMethods<E, A>(right(a))
-export const run = <E, A>(e: Either<E, A>): EitherMethods<E, A> => new EitherMethods(e)
-export const runAsync = <E, A>(e: Promise<Either<E, A>>): Promise<EitherMethods<E, A>> => e.then(run)
+export const pureLeft = <A, E = unknown>(e: E): EitherMethods<E, A> =>
+  new EitherMethods(left(e))
+export const pure = <E, A = unknown>(a: A): EitherMethods<E, A> =>
+  new EitherMethods<E, A>(right(a))
+export const run = <E, A>(e: Either<E, A>): EitherMethods<E, A> =>
+  new EitherMethods(e)
+export const runAsync = <E, A>(
+  e: Promise<Either<E, A>>
+): Promise<EitherMethods<E, A>> => e.then(run)
 
-  
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const isDesktop = (): boolean => (window as any).__TAURI__ !== undefined
 
