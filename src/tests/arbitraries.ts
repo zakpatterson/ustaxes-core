@@ -91,23 +91,21 @@ const employer: Arbitrary<types.Employer> = fc
     address
   }))
 
-const w2: Arbitrary<types.IncomeW2> = fc
+const w2: Arbitrary<types.IncomeW2> = wages.chain((income) => fc
   .tuple(
     maxWords(2),
-    wages,
-    fc.nat(),
-    fc.nat(),
-    fc.nat(),
-    fc.nat(),
+    fc.nat({max: income}),
+    fc.nat({max: income}),
+    fc.nat({max:income}),
+    fc.nat({max:income}),
     employer,
     state,
-    fc.nat(),
-    fc.nat()
+    fc.nat({max: income}),
+    fc.nat({max: income})
   )
   .map(
     ([
       occupation,
-      income,
       medicareIncome,
       fedWithholding,
       ssWithholding,
@@ -130,6 +128,7 @@ const w2: Arbitrary<types.IncomeW2> = fc
       stateWithholding
     })
   )
+)
 
 export const f1099IntData: Arbitrary<types.F1099IntData> = fc
   .nat()
