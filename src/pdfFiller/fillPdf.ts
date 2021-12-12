@@ -6,8 +6,9 @@ import { displayRound } from '../irsForms/util'
  * Attempt to fill fields in a PDF from a Form,
  * checking one by one that each pdf field and Form value
  * Make sense by type (checkbox => boolean, textField => string / number)
+ * Side-effecting! Modifies the pdf document.
  */
-export function fillPDF(pdf: PDFDocument, fieldValues: Field[]): void {
+export function fillPDF(pdf: PDFDocument, fieldValues: Field[]): PDFDocument {
   const formFields = pdf.getForm().getFields()
 
   formFields.forEach((pdfField, index) => {
@@ -37,4 +38,6 @@ export function fillPDF(pdf: PDFDocument, fieldValues: Field[]): void {
     }
     pdfField.enableReadOnly()
   })
+  
+  return pdf
 }

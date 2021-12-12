@@ -6,20 +6,18 @@ export interface PDFDownloader {
   (url: string): Promise<PDFDocument>
 }
 
-export const makeDownloader =
-  (baseUrl: string): PDFDownloader =>
-  async (url: string): Promise<PDFDocument> => {
-    const download = await fetch(`${baseUrl}${url}`)
-    const buffer = await download.arrayBuffer()
-    return await PDFDocument.load(buffer)
-  }
+export const downloadPDF: PDFDownloader = async (url) => {
+  const download = await fetch(url)
+  const buffer = await download.arrayBuffer()
+  return await PDFDocument.load(buffer)
+}
 
-export const combinePdfs = (pdfFiles: PDFDocument[]): Promise<PDFDocument> => {
-  const [head, ...rest] = pdfFiles
+export const combinePdfs = async (pdfFiles: PDFDocument[]): Promise<PDFDocument> => {
+  const [head, ...rest] = await Promise.all(pdfFiles.map(async (pdf) => PDFDocument.load(await pdf.save())))
 
   // Make sure we combine the documents from left to right and preserve order
   return rest.reduce(async (l, r) => {
-    const doc = await l
+    const doc = await PDFDocument.load(await (await l).save())
     return await doc.copyPages(r, r.getPageIndices()).then((pgs) => {
       pgs.forEach((p) => doc.addPage(p))
       return doc
