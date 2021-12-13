@@ -91,6 +91,12 @@ const employer: Arbitrary<types.Employer> = fc
     address
   }))
 
+const w2Box12Info = (max: number): Arbitrary<types.W2Box12Info> =>
+  fc.dictionary(
+    fc.constantFrom(...util.enumKeys(types.W2Box12Code)),
+    fc.nat({ max })
+  )
+
 const w2: Arbitrary<types.IncomeW2> = wages.chain((income) =>
   fc
     .tuple(
@@ -100,6 +106,7 @@ const w2: Arbitrary<types.IncomeW2> = wages.chain((income) =>
       fc.nat({ max: income }),
       fc.nat({ max: income }),
       employer,
+      w2Box12Info(income),
       state,
       fc.nat({ max: income }),
       fc.nat({ max: income })
@@ -112,6 +119,7 @@ const w2: Arbitrary<types.IncomeW2> = wages.chain((income) =>
         ssWithholding,
         medicareWithholding,
         employer,
+        box12,
         state,
         stateWages,
         stateWithholding
@@ -124,6 +132,7 @@ const w2: Arbitrary<types.IncomeW2> = wages.chain((income) =>
         personRole: types.PersonRole.PRIMARY,
         ssWithholding,
         medicareWithholding,
+        box12,
         state,
         stateWages,
         stateWithholding
@@ -313,6 +322,49 @@ export class Arbitraries {
       max: this.currentYear
     })
 
+  healthSavingsAccount = (): Arbitrary<types.HealthSavingsAccount> =>
+    fc
+      .tuple(
+        words,
+        fc.constantFrom<'self-only' | 'family'>('self-only', 'family'),
+        fc.nat({ max: 100000 }),
+        fc.constantFrom<types.PersonRole.PRIMARY | types.PersonRole.SPOUSE>(
+          types.PersonRole.PRIMARY,
+          types.PersonRole.SPOUSE
+        ),
+        fc.date({
+          min: new Date(this.currentYear, 0, 1),
+          max: new Date(this.currentYear, 11, 31)
+        }),
+        fc.date({
+          min: new Date(this.currentYear, 0, 1),
+          max: new Date(this.currentYear, 11, 31)
+        }),
+        fc.nat({ max: 100000 }),
+        fc.nat({ max: 100000 })
+      )
+      .map(
+        ([
+          label,
+          coverageType,
+          contributions,
+          personRole,
+          startDate,
+          endDate,
+          totalDistributions,
+          qualifiedDistributions
+        ]) => ({
+          label,
+          coverageType,
+          contributions,
+          personRole,
+          startDate,
+          endDate,
+          totalDistributions,
+          qualifiedDistributions
+        })
+      )
+
   property = (): Arbitrary<types.Property> =>
     fc
       .tuple(
@@ -402,7 +454,8 @@ export class Arbitraries {
         refund,
         this.taxPayer(),
         questions,
-        state
+        state,
+        fc.array(this.healthSavingsAccount())
       )
       .map(
         ([
@@ -414,7 +467,8 @@ export class Arbitraries {
           refund,
           taxPayer,
           questions,
-          state
+          state,
+          healthSavingsAccounts
         ]) => ({
           f1099s,
           w2s,
@@ -424,7 +478,8 @@ export class Arbitraries {
           refund,
           taxPayer,
           questions,
-          stateResidencies: [{ state }]
+          stateResidencies: [{ state }],
+          healthSavingsAccounts
         })
       )
 }

@@ -6,6 +6,7 @@ import ajv from '../data/validate'
 import * as validators from '../data/validate'
 
 /* eslint-disable @typescript-eslint/no-empty-function */
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 beforeAll(() => {
   jest.spyOn(console, 'warn').mockImplementation(() => {})
   jest.spyOn(console, 'error').mockImplementation(() => {})
