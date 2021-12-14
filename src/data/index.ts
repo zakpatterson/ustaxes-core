@@ -212,13 +212,13 @@ export interface Income1099<T, D> {
   personRole: PersonRole.PRIMARY | PersonRole.SPOUSE
 }
 
-export interface HealthSavingsAccount {
+export interface HealthSavingsAccount<DateType = string> {
   label: string
   coverageType: 'self-only' | 'family'
   contributions: number
   personRole: PersonRole.PRIMARY | PersonRole.SPOUSE
-  startDate: Date
-  endDate: Date
+  startDate: DateType
+  endDate: DateType
   totalDistributions: number
   qualifiedDistributions: number
 }
